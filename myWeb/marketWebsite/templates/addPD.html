@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tw">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<title>add/update product</title>
+
+<style>
+*{
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  height: 100%;
+}
+
+.header{
+  background-color: #009400;
+  padding: 30px;
+  text-align: center;
+}
+
+
+.footer{
+  background-color: #009400;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.topnav{
+  overflow: hidden;
+  background-color: #008000;
+  margin-bottom: 20px;
+}
+
+.topnav a{
+  color: white;
+  padding: 13px 16px;
+  text-decoration: none;
+  float: left;
+}
+
+.main{
+  background-color: #F0F0F0;
+  border-radius: 5px;
+  width: 500px;
+  margin: auto;
+  overflow: auto;
+}
+
+.content{
+  width: 460px;
+  margin: 20px;
+  float: left;
+}
+
+.content label{
+  float: left;
+  padding: 5px;
+  margin: 5px 5px 0px 0px;
+}
+
+.content input[type=text],[type=file], select {
+  width: 75%;
+  float: left;
+  padding: 5px;
+  margin-top: 6px;
+}
+
+.content input[type=submit]{
+  float: right;
+  padding: 5px;
+  margin: 6px 10px 0px 10px;
+}
+
+.content img{
+  width: 180px; 
+  height:160px;
+  object-fit: cover;
+}
+
+
+/* id */
+
+
+
+
+</style>
+</head>
+
+<body>
+<div class="header" style="font-size:30px;">
+    <b>範例:XX生鮮超市</b>
+</div>
+<div style="position: sticky; top: 0;">
+  <div class="topnav">
+    <a href="#" style="visibility: hidden;">新增</a>
+    <a href="#" id="delete" style="visibility: hidden;">刪除</a>
+    <a href="#" id="update" style="visibility: hidden;">修改</a>
+  </div>
+</div>
+
+<div style="min-height: 470px;">
+  <div class="main">
+    <form action="?post" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <div class="content">
+        <label for="pname">產品名稱:</label>
+        <input type="text" id="pname" name="pname" {% if product %} value="{{product.pname}}" {% endif %}>
+      </div>
+      <div class="content" {% if not product.pimg and product %} style="border: 1px solid red ;" {% endif %}>
+        <label for="pimg">產品照片:</label>
+        <input type="file" accept="image/*" id="pimg" name="pimg">
+        {% if product.pimg %} <img src="/{{product.pimg}}"> {% endif %}
+      </div>
+      <div class="content">
+        <label for="ptype">產品種類:</label>
+        <select {% if product %}  id="ptype" {% endif %} name="ptype">
+          <option value="蔬菜">蔬菜</option>
+          <option value="水果">水果</option>
+          <option value="肉類">肉類</option>
+          <option value="蛋類">蛋類</option>
+        </select>
+      </div>
+      <div class="content">
+        <input type="submit" style="float: right;" value="上傳">
+        <input type="submit" formaction="?cancel" style="float: right;" value="取消">
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+
+var opt = document.getElementById("ptype").options;
+
+
+for(i=0; i < opt.length; i++){
+  if(opt[i].value == "{{ product.ptype }}"){
+    opt[i].selected = "true;"
+  }
+}
+
+    
+</script>
+
+<div class="footer">頁尾</div>
+</body>
+</html>

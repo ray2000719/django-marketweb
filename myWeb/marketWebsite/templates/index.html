@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tw">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<title>market</title>
+
+<style>
+
+html {
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  height: 100%;
+}
+
+.header{
+  background-color: #009400;
+  padding: 30px;
+  text-align: center;
+}
+
+
+.footer{
+  background-color: #009400;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.topnav{
+  overflow: hidden;
+  background-color: #008000;
+  margin-bottom: 20px;
+}
+
+.topnav a{
+  color: white;
+  padding: 13px 16px;
+  text-decoration: none;
+  float: left;
+}
+
+.topnav a:hover{
+  color: black;
+  background-color: #E0E0E0;
+}
+
+.searchtext{
+  color: white;
+  padding: 13px 5px;
+  margin-left: 50px;
+}
+
+.searchbar{
+  margin: 12px 2px 10px 2px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-position: 1px 1px; 
+  font-size: 16px;
+}
+
+.leftnav{
+  float: left;
+  width: 200px;
+  height: 400px;
+  margin: 50px;
+  background-color: #46A3FF;
+  border-radius: 15px;
+  display: block;
+}
+
+.leftnav ul{
+  width:160px;
+  height:360px;
+  list-style-type: none;
+  padding: 0;
+  margin:auto;
+  margin-top:20px;
+  overflow: auto;
+}
+
+.leftnav li{
+  padding: 10px 10px;
+  border-style: inset;
+  color: blue;
+  background-color: #fff;
+  text-align: center;
+}
+
+.leftnav li:hover{
+  background-color: #66B3FF;
+  cursor: pointer;
+}
+
+.leftnav a{
+  color: blue;
+  text-decoration: none;
+}
+
+.main{
+  max-width: 1100px;
+  min-width: 220px;
+  margin-left: 300px;
+  overflow: auto;
+}
+
+.content{
+  background-color: #F0F0F0;
+  width: 180px;
+  height: 220px;
+  margin: 20px;
+  float: left;
+}
+
+.content:hover{
+  border: 2px solid blue;
+  margin: 18px;
+  cursor: pointer;
+}
+
+.content img{
+  width: 180px; 
+  height:160px;
+  object-fit: cover;
+}
+
+.img{
+  background-color: #9D9D9D;
+  width: 180px;
+  height:160px;
+  text-align: center;
+}
+
+.content .name{
+  height: 20px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  padding: 5px;
+}
+
+.content .tag{
+  width: auto;
+  height: 20px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  font-size: 10px;
+  margin: 0px 5px;
+  padding: 5px;
+  background-color: #BEBEBE;
+  border-radius: 5px;
+}
+
+/* id */
+
+
+
+
+</style>
+</head>
+
+<body>
+<div class="header" style="font-size:30px;">
+    <b>範例:XX生鮮超市</b>
+</div>
+<div style="position: sticky; top: 0;">
+  <div class="topnav">
+    <a href="addPD/">新增</a>
+    <a onclick="del()" id="delete" style="visibility: hidden; cursor: pointer;">刪除</a>
+    <a onclick="upd()" id="update" style="visibility: hidden; cursor: pointer;">修改</a>
+    
+    <form action="?search" style="max-width:500px; float:left;">
+      <span class="searchtext">搜尋:</span>
+      <input class="searchbar" type="text" name="searchtxt" placeholder="Search..">
+    </form>
+    
+    <a href="#" style="float:right;">登入</a>
+  </div>
+  <div class="leftnav">
+    <ul>
+      <li><a href="?all">全部</a></li>
+      <li><a href="?vegetable">蔬菜</a></li>
+      <li><a href="?fruit">水果</a></li>
+      <li><a href="?meat">肉類</a></li>
+      <li><a href="?egg">蛋類</a></li>
+    </ul>
+  </div>
+</div>
+
+<div style="min-height: 470px;">
+  <div class="main">
+    <!--
+    <div class="content" onclick="select(this)">
+      <div class="img">img</div>
+      <div class="name">name</div>
+      <span class="tag">#123</span>
+    </div>
+    <div class="content" onclick="select(this)">
+      <div class="img">img</div>
+      <div class="name">name</div>
+      <span class="tag">#123</span>
+    </div>
+    <div class="content" onclick="select(this)">
+      <div class="img">img</div>
+      <div class="name">name</div>
+      <span class="tag">#123</span>
+    </div>
+    <div class="content" onclick="select(this)">
+      <div class="img">img</div>
+      <div class="name">name</div>
+      <span class="tag">#123</span>
+    </div>
+    <div class="content" onclick="select(this)">
+      <div class="img">img</div>
+      <div class="name">name</div>
+      <span class="tag">#123</span>
+    </div>
+    <div class="content" onclick="select(this)">
+      <div class="img">img</div>
+      <div class="name">name</div>
+      <span class="tag">#123</span>
+    </div>
+    -->
+    {% for pdIM in pdList %}
+      <div class="content" id="{{ pdIM.id }}" onclick="select(this)">
+        <div><img src="/{{ pdIM.pimg }}"></div>
+        <div class="name" title="{{ pdIM.pname }}">{{ pdIM.pname }}</div>
+        <span class="tag">#{{ pdIM.ptype }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+
+var newproductIM;
+var oldproductIM;
+
+function select(newproductIM){
+  if(oldproductIM != newproductIM){
+  
+    if(oldproductIM != null){
+      oldproductIM.style.cssText = '';
+    }
+    
+    oldproductIM = newproductIM;
+    newproductIM.style.cssText = 'border: 3px solid red; margin: 17px; cursor: pointer;';
+    document.getElementById("delete").style.visibility = "visible";
+    document.getElementById("update").style.visibility = "visible";
+    
+  }else{
+  
+    oldproductIM = null;
+    newproductIM.style.cssText = '';
+    document.getElementById("delete").style.visibility = "hidden";
+    document.getElementById("update").style.visibility = "hidden";
+    
+  }
+}
+
+function del(){
+  document.location = "deletePD/" + oldproductIM.id + "/";
+}
+
+function upd(){
+  document.location = "updatePD/" + oldproductIM.id + "/";
+}
+
+function cssSW(element, style){
+  for(const protype in style){
+    element.style[protype] = style[protype];
+  }
+}
+
+</script>
+
+<div class="footer">頁尾</div>
+</body>
+</html>
+

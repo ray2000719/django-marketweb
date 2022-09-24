@@ -1,0 +1,28 @@
+version: '3'
+services:
+
+    db:
+      image: postgres
+      environment:
+        POSTGRES_PASSWORD: pwd123
+      ports:
+        - "5432:5432"
+        # (HOST:CONTAINER)
+      volumes:
+      - db-data:/var/lib/postgresql/data
+
+    web:
+      build: ./
+      command: python myWeb/manage.py runserver 0.0.0.0:8000
+      restart: always
+      ports:
+        - "8000:8000"
+        # (HOST:CONTAINER)
+      volumes:
+      - marketapp-data:/marketAPP/myWeb/media
+      depends_on:
+        - db
+
+volumes:
+  db-data:
+  marketapp-data:
